@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Spanish Alphabet Practice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+/* Same UI styling as your original code */
+:root{
+  --bg:#0b1020;
+  --card:#111731;
+  --muted:#8ea1c4;
+  --text:#eaf1ff;
+  --accent:#6ee7b7;
+  --accent2:#7aa2ff;
+  --danger:#ff6b6b;
+  --ok:#34d399;
+  --shadow:0 20px 60px rgba(0,0,0,.45);
+  --radius:18px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0; font-family:Inter,system-ui; background: radial-gradient(1200px 600px at 20% -10%, #1b2551 0%, rgba(27,37,81,0) 60%), radial-gradient(1200px 600px at 90% 10%, #1b5140 0%, rgba(27,81,64,0) 60%), var(--bg);
+  color:var(--text); display:flex; align-items:center; justify-content:center; padding:32px;
+}
+.app{width:clamp(320px,92vw,980px);} 
+header{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+header .logo{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent2),#9b8cff);box-shadow:var(--shadow);font-weight:800;color:#0c1023}
+header h1{font-size:clamp(22px,3.2vw,34px);margin:0;font-weight:800;letter-spacing:.3px}
+header p{margin:0;color:var(--muted)}
+.card{background:linear-gradient(180deg,rgba(255,255,255,.03), rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(6px);border-radius:var(--radius);box-shadow:var(--shadow);} 
+.panel{padding:22px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.toggle{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03)}
+.toggle input{accent-color:var(--accent)}
+.button{cursor:pointer;border:none;padding:12px 16px;border-radius:14px;font-weight:700;letter-spacing:.2px;transition:.2s transform ease,.2s background ease;}
+.button.primary{background:linear-gradient(135deg,var(--accent),#7ae9ff);color:#07131a}
+.button.secondary{background:rgba(255,255,255,.06);color:var(--text);border:1px solid rgba(255,255,255,.08)}
+.button:active{transform:translateY(1px)}
+.row{display:flex;gap:16px;align-items:stretch}
+.row>.col{flex:1}
+.stats{display:flex;gap:14px;flex-wrap:wrap}
+.stat{flex:1;min-width:140px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:12px 14px}
+.stat .label{color:var(--muted);font-size:12px;letter-spacing:.3px}
+.stat .value{font-weight:800;font-size:24px}
+.game{margin-top:16px;display:grid;gap:14px}
+.prompt{display:grid;gap:10px;padding:18px;border-radius:16px;background:linear-gradient(160deg,rgba(122,162,255,.15),rgba(255,255,255,.02));border:1px solid rgba(122,162,255,.25)}
+.prompt .q{font-size:clamp(18px,2.4vw,26px);font-weight:700}
+.letter{font-size:clamp(52px,8vw,120px);font-weight:800;letter-spacing:2px;line-height:1;}
+.actions{display:flex;gap:10px;flex-wrap:wrap}
+.options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.option{padding:14px 16px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);cursor:pointer;font-weight:700}
+.option.correct{outline:2px solid var(--ok);background:rgba(52,211,153,.12)}
+.option.wrong{outline:2px solid var(--danger);background:rgba(255,107,107,.12)}
+.input-wrap{display:flex;gap:8px}
+.input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:rgba(0,0,0,.2);color:var(--text);font-size:16px}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);font-size:13px;color:var(--muted)}
+.footer{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-top:1px dashed rgba(255,255,255,.12);color:var(--muted)}
+.progress{height:8px;width:100%;background:rgba(255,255,255,.08);border-radius:999px;overflow:hidden}
+.progress>div{height:8px;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%}
+@media(max-width:640px){.options{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="logo">ÁA</div>
+  <div>
+    <h1>Spanish Alphabet Practice</h1>
+    <p>Gimkit-style practice: hear it and pick the correct letter.</p>
+  </div>
+</header>
+<div class="card">
+<div class="panel">
+  <div class="controls" style="margin-bottom:12px">
+    <label class="toggle"><input type="checkbox" id="autoSpeak" checked> Auto-speak Spanish</label>
+    <label class="toggle"><input type="checkbox" id="reverseMode"> Reverse (name → letter)</label>
+    <span class="pill"><strong>🔥 Streak:</strong> <span id="streak">0</span>x</span>
+    <span class="pill"><strong>❤️ Lives:</strong> <span id="lives">3</span></span>
+    <button class="button secondary" id="resetBtn">Reset</button>
+  </div>
+  <div class="row">
+    <div class="col">
+      <div class="stats">
+        <div class="stat"><div class="label">Score</div><div class="value" id="score">0</div></div>
+        <div class="stat"><div class="label">Questions</div><div class="value"><span id="qnum">0</span>/<span id="qtotal">0</span></div></div>
+        <div class="stat"><div class="label">Accuracy</div><div class="value" id="accuracy">–</div></div>
+      </div>
+      <div class="game">
+        <div class="prompt">
+          <div class="q" id="question">Press Start to begin.</div>
+          <div class="letter" id="bigLetter">—</div>
+          <div class="actions">
+            <button class="button primary" id="startBtn">Start</button>
+            <button class="button secondary" id="speakEs">🔊 Spanish</button>
+          </div>
+        </div>
+        <div id="mc" class="options" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="footer">
+  <div class="progress"><div id="progressBar"></div></div>
+  <div id="feedback">&nbsp;</div>
+</div>
+</div>
+</div>
+<script>
+const ITEMS=[
+  {letter:'A',es:'Guess The Letter'},{letter:'B',es:'Guess The Letter'},{letter:'C',es:'Guess The Letter'},{letter:'D',es:'Guess The Lettere'},{letter:'E',es:'Guess The Letter'},
+  {letter:'F',es:'Guess The Letter'},{letter:'G',es:'Guess The Letter'},{letter:'H',es:'Guess The Letter'},{letter:'I',es:'Guess The Letter'},{letter:'J',es:'Guess The Letter'},
+  {letter:'K',es:'Guess The Letter'},{letter:'L',es:'Guess The Letter'},{letter:'M',es:'Guess The Letter'},{letter:'N',es:'Guess The Letter'},{letter:'Ñ',es:'Guess The Lettere'},
+  {letter:'O',es:'Guess The Letter'},{letter:'P',es:'Guess The Letter'},{letter:'Q',es:'Guess The Letter'},{letter:'R',es:'Guess The Letter'},{letter:'S',es:'Guess The Letter'},
+  {letter:'T',es:'Guess The Letter'},{letter:'U',es:'Guess The Letter'},{letter:'V',es:'Guess The Letter'},{letter:'W',es:'Guess The Letter'},{letter:'X',es:'Guess The Letter'},
+  {letter:'Y',es:'Guess The Letter'},{letter:'Z',es:'Guess The Letter'}
+];
+let deck=[],index=0,score=0,correct=0,total=0,streak=0,lives=3,current=null;
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function speak(text,lang){if(!('speechSynthesis'in window))return;window.speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang=lang||'es-ES';u.rate=.95;u.pitch=1;const voices=window.speechSynthesis.getVoices();const pref=voices.find(v=>v.lang.startsWith('es'));if(pref)u.voice=pref;window.speechSynthesis.speak(u);}
+function updateStats(){document.getElementById('score').textContent=score;document.getElementById('qnum').textContent=index;document.getElementById('qtotal').textContent=deck.length;document.getElementById('accuracy').textContent=total?Math.round(100*(correct/total))+'%':'–';document.getElementById('streak').textContent=streak;document.getElementById('lives').textContent=lives;document.getElementById('progressBar').style.width=deck.length?(100*index/deck.length)+'%':'0%';}
+function nextQuestion(){if(index>=deck.length){endGame();return;}current=deck[index];const reverse=document.getElementById('reverseMode').checked;document.getElementById('question').textContent=reverse?'Which letter matches this Spanish name…':'What is the letter for this Spanish name…';document.getElementById('bigLetter').textContent=reverse?current.es.toUpperCase():current.es;const mc=document.getElementById('mc');mc.style.display='grid';mc.innerHTML='';const distractors=shuffle(ITEMS.filter(x=>x!==current)).slice(0,3);const options=shuffle([current.letter,...distractors.map(d=>d.letter)]);options.forEach(opt=>{const b=document.createElement('button');b.className='option';b.textContent=opt;b.onclick=()=>{const isCorrect=(opt===current.letter);handleAnswer(isCorrect,opt);b.classList.add(isCorrect?'correct':'wrong');Array.from(mc.children).forEach(c=>c.disabled=true);};mc.appendChild(b);});if(document.getElementById('autoSpeak').checked)speak(current.es,'es-ES');updateStats();}
+function startGame(){deck=shuffle([...ITEMS]);index=0;score=0;correct=0;total=0;streak=0;lives=3;document.getElementById('feedback').innerHTML='&nbsp;';nextQuestion();}
+function endGame(){document.getElementById('question').textContent='Session complete!';document.getElementById('bigLetter').textContent='✅';document.getElementById('mc').style.display='none';document.getElementById('feedback').innerHTML=`Score:<strong>${score}</strong> • Accuracy:<strong>${Math.round(100*(correct/total))}%</strong>`;}
+function handleAnswer(isCorrect){total++;if(isCorrect){correct++;streak++;const bonus=10+Math.min(50,2*streak);score+=bonus;document.getElementById('feedback').innerHTML=`✅ Correct! +${bonus}`;speak(current.es,'es-ES');}else{streak=0;lives--;document.getElementById('feedback').innerHTML=`❌ Not quite. It was ${current.letter}`;speak(current.es,'es-ES');if(lives<=0){endGame();return;}}index++;updateStats();setTimeout(()=>nextQuestion(),800);}
+document.getElementById('startBtn').onclick=startGame;document.getElementById('resetBtn').onclick=startGame;document.getElementById('speakEs').onclick=()=>{if(current)speak(current.es,'es-ES');};if('speechSynthesis'in window){window.speechSynthesis.onvoiceschanged=()=>{};}
+</script>
+</body>
+</html>
